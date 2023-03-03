@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+	provider = "postgresql"
+	url = env("VITE_DATABASE_URL")
+}
+
+model User {
+	id String @unique @default(uuid())
+	sessionID String @unique @default(uuid())
+	twoFaAuthSecret String?
+	isTwoFaAuthEnabled Boolean @default(false)
+	currentRoomId Int @default(1)
+	currentRoomName String @default("General Chat")
+	isConnected Boolean @default(false)
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	email String @unique
+	hash String
+
+	login String @unique
+	info String @default("About me")
+
+
+	avatar String @default("./src/datas/uploads/defaultAvatar.jpeg")
+	medals Medal[]
+
+	gamesHistory History[]
+
+	friends Friend[]
+	blocks Block[]
+	members Member[]
+	admins Admin[]
+
+	victories Int @default(0)
+	loses Int @default(0)
+
+	@@unique([id, login])
+}
+
+model Medal {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+
+	title String
+	description String?
+
+	userId String
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	@@map("medals")
+}
+
+model History {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	
+	enemyLogin String
+	userScore Int
+	enemyScore Int
+
+	userId String
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	@@map("gamesHistory")
+}
+
+model Friend {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	
+	friendId String
+
+	userId String
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	@@map("friends")
+}
+
+model Block {
+	id Int @id @default(autoincrement())
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+	
+	blockId String
+
+	userId String
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	@@map("blocks")
+}
+
+model Room {
+	id Int @id @default(autoincrement())
+	name String @unique
+
+	ownerId String?
+	messages Message[]
+
+	isPrivate Boolean @default(false)
+	isWhisp Boolean @default(false)
+	hash String?
+
+	admins Admin[]
+	members Member[]
+
+	@@unique([id, name])
+	@@map("rooms")
+}
+
+model Message {
+	id Int @id @default(autoincrement())
+
+	sender String
+	receveir String?
+	message String
+
+	isWhisp Boolean @default(false)
+
+	roomId Int
+	roomName String
+	room Room @relation(fields: [roomId, roomName], references: [id, name], onDelete: Cascade)
+	@@map("messages")
+}
+
+model Admin {
+	id String @id @default(uuid())
+
+	userId String
+	userName String
+	user User @relation(fields: [userId, userName], references: [id, login], onDelete: Cascade)
+
+	roomId Int
+	room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+	@@map("admins")
+}
+
+model Member {
+	id String @id @default(uuid())
+
+	userId String
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+	roomId Int
+	roomName String
+	room Room @relation(fields: [roomId, roomName], references: [id, name], onDelete: Cascade)
+
+
+	unmuteDate DateTime @default(now())
+	unbanDate DateTime @default(now())
+	@@map("members")
+}

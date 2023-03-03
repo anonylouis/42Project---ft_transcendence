@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+ dev-db:
+  image: postgres:latest
+  container_name: postgres
+  networks:
+   - api
+  restart: always
+  environment:
+   POSTGRES_USER: ${VITE_POSTGRES_USER}
+   POSTGRES_PASSWORD: ${VITE_POSTGRES_PASSWORD}
+   POSTGRES_DB: ${VITE_POSTGRES_DB}
+  expose:
+   - "5432"
+  volumes:
+   - pg_data:/var/lib/postgresql/data
+ nestjs:
+  container_name: nestjs
+  build:
+   context: ./nestjs
+  ports:
+   - "5555:5555"
+  env_file:
+   - .env
+  networks:
+   - api
+  restart: always
+  depends_on:
+   - dev-db
+   - nginx
+ react:
+  container_name: react
+  build:
+   context: ./react
+  env_file:
+   - .env
+  networks:
+   - api
+  restart: always
+  depends_on:
+   - nestjs
+   - nginx
+ nginx:
+  image: nginx
+  container_name: nginx
+  build:
+   context: ./nginx
+  ports:
+   - "4443:443"
+  env_file:
+   - .env
+  networks:
+   - api
+  restart: always
+
+networks:
+ api:
+
+volumes:
+ pg_data:

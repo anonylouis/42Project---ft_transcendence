@@ -1,0 +1,54 @@
+Canvas {
+	border: 1px rgba(240,160,160,1) solid;
+}
+
+body {
+	font-family: Helvetica;
+	background-color: black;
+}
+
+p {
+	text-transform: uppercase;
+	color: white;
+}
+
+.fullGameDivPC {
+	position: relative;
+	display: flex;
+	width: 80vw;
+	padding-bottom: 20%;
+}
+
+.fullGameDivMobile {
+	position: relative;
+	display: flex;
+	width: 100vw;
+	flex-direction: column;
+	align-items: center;
+}
+
+.Rules {
+	margin: 2%;
+	padding-bottom: 2%;;
+	text-align: center;
+	background: rgba(0, 0, 0, 0.8);
+	color: white;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.Rules h2 {
+	color: #f54000;
+}
+
+.pongCanvasPC {
+	position: relative;
+	left: 5%;
+	height: 50%;
+}
+
+.pongCanvasMobile {
+	width: fit-content;
+	height: fit-content;
+}
