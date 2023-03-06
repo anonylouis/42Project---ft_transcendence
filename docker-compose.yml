@@ -19,8 +19,6 @@ services:
   container_name: nestjs
   build:
    context: ./nestjs
-  ports:
-   - "5555:5555"
   env_file:
    - .env
   networks:

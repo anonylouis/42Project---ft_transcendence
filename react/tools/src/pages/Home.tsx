@@ -3,10 +3,8 @@ import React, { useContext } from 'react';
 import { UserContext } from '../main';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import '../styles/Home.css';
 import Logout from '../components/auth/Logout';
-import Chat from '../components/chat/Chat';
 import { UserDataType } from '../interfaces/interfaceMain';
 import Login from '../components/auth/Login';
 import Register from '../components/auth/Register';
@@ -68,16 +66,9 @@ const Button = styled.button`
 	font-size: larger;
 `
 
-const CHECK_URL = "https://" + import.meta.env.VITE_HOSTNAME + ":"
-						+ import.meta.env.VITE_PROXY_PORT + "/api/auth/check/";
-
 function Home() {
 	const {userData, setUserData} : UserDataType = useContext(UserContext);
 	const [LogPage, setLogPage] = useState<boolean>(true);
-/*
-	const url42 = process.env.HOSTNAME + "/api/auth/check"
-	<form action={url42}>
-*/
 
 	return (
 		<GlobalDiv>
@@ -96,9 +87,6 @@ function Home() {
 					<ButtonDiv>
 						<Button onClick={() => setLogPage(true)} >Log in</Button>
 						<Button onClick={() => setLogPage(false)}>Register</Button>
-						<form action={CHECK_URL}>
-							<Button>Log in with 42</Button>
-						</form>
 					</ButtonDiv>
 				)}
 			</Header>

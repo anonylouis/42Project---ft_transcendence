@@ -12,13 +12,12 @@ import { AdminService } from '../admin/admin.service';
 import { MyUserController } from '../myUser/myUser.controller';
 import { MyUserService } from '../myUser/myUser.service';
 import { JwtStrategy } from './strategy';
-import { FtStrategy } from './ft_strategy';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
 	imports: [JwtModule.register({}), PassportModule, HttpModule],
 	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy, FtStrategy, SocketEvents, MessageService, MyUserController, RoomService, MemberService, AdminService, MyUserService, BlockService],
+	providers: [AuthService, JwtStrategy, SocketEvents, MessageService, MyUserController, RoomService, MemberService, AdminService, MyUserService, BlockService],
 })
 
 export class AuthModule {}
