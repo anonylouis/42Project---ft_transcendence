@@ -5,6 +5,8 @@ In this one, we have to realise a **single-page appplication** with some feature
 
 We used reactjs for the frontend part, nestjs for the backend part and a PostgreSQL database.  
 
+**Made with the 42 students [rvalton](https://github.com/Oro31/Transcendance) and [melperri](https://github.com/Melvin42)**  
+
 ## Subject  
 
 The website must have :  
