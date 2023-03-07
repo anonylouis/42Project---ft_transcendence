@@ -1,18 +1,12 @@
-
 all:
-	docker-compose up --build
+	docker-compose up --build -d
+	@echo "Dockers ready"
 
-down:
+stop:
 	docker-compose down
 
-ps:
+check:
 	docker-compose ps -a
 
-vps:
-	docker volume ls
-
 clean:
-	docker system prune -a
-	docker volume rm ft_transcendence_pg_data
-	rm -rf data/
-	docker system df
+	docker-compose down --rmi all -v
